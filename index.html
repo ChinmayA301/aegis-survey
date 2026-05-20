@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis AI Readiness Pulse Survey</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --card: #ffffff;
+      --text: #171717;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #111827;
+      --accent-soft: #f3f4f6;
+      --danger: #b91c1c;
+      --success: #047857;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+
+    .hero {
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    h1 {
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      margin: 20px 0 16px;
+      font-weight: 760;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 670px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      margin: 18px 0;
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.06);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .question {
+      margin-bottom: 24px;
+    }
+
+    .question:last-child {
+      margin-bottom: 0;
+    }
+
+    label.q-label {
+      display: block;
+      font-size: 18px;
+      font-weight: 680;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .hint {
+      margin-top: -6px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      background: #fff;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #111827;
+      box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.08);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 13px;
+      cursor: pointer;
+      background: #fff;
+      transition: border 0.2s, background 0.2s, transform 0.2s;
+    }
+
+    .option:hover {
+      border-color: #9ca3af;
+      background: var(--accent-soft);
+    }
+
+    .option input {
+      margin-top: 4px;
+      accent-color: var(--accent);
+    }
+
+    .scale {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .scale label {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
+      background: #fff;
+      font-weight: 650;
+    }
+
+    .scale input {
+      display: none;
+    }
+
+    .scale input:checked + span {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .scale span {
+      display: block;
+      border-radius: 9px;
+      padding: 7px 0;
+    }
+
+    .scale-caption {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-size: 15px;
+      font-weight: 720;
+      padding: 13px 22px;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .status.success {
+      color: var(--success);
+      font-weight: 650;
+    }
+
+    .status.error {
+      color: var(--danger);
+      font-weight: 650;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 18px;
+    }
+
+    .required {
+      color: var(--danger);
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        padding: 32px 14px 56px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .scale {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Aegis · AI Readiness, Governance & ROI</div>
+      <h1>AI Adoption Readiness Pulse Survey</h1>
+      <p class="subtitle">
+        I’m building Aegis, an AI readiness, governance, and ROI assessment framework for organizations exploring AI adoption. This short survey helps identify where AI is useful, what risks need to be managed, and what evidence leaders need before approving pilots.
+      </p>
+    </section>
+
+    <form id="surveyForm">
+      <section class="card">
+        <div class="section-title">1 · About you</div>
+
+        <div class="question">
+          <label class="q-label" for="role">Which best describes your role? <span class="required">*</span></label>
+          <select id="role" name="role" required>
+            <option value="">Select one</option>
+            <option>Executive / Founder / Senior Leader</option>
+            <option>Product / Operations / Strategy</option>
+            <option>IT / Data / AI / Engineering</option>
+            <option>Compliance / Legal / Risk / Security</option>
+            <option>Public sector / Government</option>
+            <option>Healthcare / Education / Nonprofit</option>
+            <option>Consultant / Advisor</option>
+            <option>Student / Researcher</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label class="q-label" for="organizationType">What type of organization are you part of? <span class="required">*</span></label>
+          <select id="organizationType" name="organizationType" required>
+            <option value="">Select one</option>
+            <option>Startup</option>
+            <option>Small business</option>
+            <option>Mid-sized company</option>
+            <option>Enterprise</option>
+            <option>Government / Public sector</option>
+            <option>Healthcare</option>
+            <option>University / Research</option>
+            <option>Nonprofit</option>
+            <option>Consulting / Professional services</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label class="q-label">How familiar are you with AI implementation in organizations?</label>
+          <div class="scale" role="radiogroup" aria-label="AI implementation familiarity">
+            <label><input type="radio" name="aiFamiliarity" value="1"><span>1</span></label>
+            <label><input type="radio" name="aiFamiliarity" value="2"><span>2</span></label>
+            <label><input type="radio" name="aiFamiliarity" value="3"><span>3</span></label>
+            <label><input type="radio" name="aiFamiliarity" value="4"><span>4</span></label>
+            <label><input type="radio" name="aiFamiliarity" value="5"><span>5</span></label>
+          </div>
+          <div class="scale-caption"><span>Not familiar</span><span>Very familiar</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">2 · AI adoption and blockers</div>
+
+        <div class="question">
+          <label class="q-label" for="aiStatus">Has your organization explored or implemented AI tools? <span class="required">*</span></label>
+          <select id="aiStatus" name="aiStatus" required>
+            <option value="">Select one</option>
+            <option>Yes, actively using AI</option>
+            <option>Yes, experimenting / piloting</option>
+            <option>Discussing but not implemented</option>
+            <option>Not yet, but interested</option>
+            <option>No current interest</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label class="q-label">What are the biggest barriers to AI adoption?</label>
+          <p class="hint">Select all that apply.</p>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="barriers" value="Data privacy concerns"> Data privacy concerns</label>
+            <label class="option"><input type="checkbox" name="barriers" value="Security / compliance concerns"> Security / compliance concerns</label>
+            <label class="option"><input type="checkbox" name="barriers" value="Unclear ROI"> Unclear ROI</label>
+            <label class="option"><input type="checkbox" name="barriers" value="Lack of internal AI expertise"> Lack of internal AI expertise</label>
+            <label class="option"><input type="checkbox" name="barriers" value="Poor data quality / readiness"> Poor data quality / readiness</label>
+            <label class="option"><input type="checkbox" name="barriers" value="Leadership hesitation"> Leadership hesitation</label>
+            <label class="option"><input type="checkbox" name="barriers" value="Vendor trust issues"> Vendor trust issues</label>
+            <label class="option"><input type="checkbox" name="barriers" value="Lack of governance framework"> Lack of governance framework</label>
+            <label class="option"><input type="checkbox" name="barriers" value="Cost / budget uncertainty"> Cost / budget uncertainty</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="q-label">What AI use cases feel most relevant?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="useCases" value="Internal knowledge assistant / chatbot"> Internal knowledge assistant / chatbot</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Document processing / summarization"> Document processing / summarization</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Customer service automation"> Customer service automation</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Workflow automation"> Workflow automation</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Data analysis / reporting"> Data analysis / reporting</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Compliance or audit automation"> Compliance or audit automation</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Risk monitoring"> Risk monitoring</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Finance / accounting support"> Finance / accounting support</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Public service / resident support"> Public service / resident support</label>
+            <label class="option"><input type="checkbox" name="useCases" value="Marketing / content generation"> Marketing / content generation</label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">3 · Governance, risk and trust</div>
+
+        <div class="question">
+          <label class="q-label">How confident would your organization be approving a new AI tool today?</label>
+          <div class="scale" role="radiogroup" aria-label="Approval confidence">
+            <label><input type="radio" name="approvalConfidence" value="1"><span>1</span></label>
+            <label><input type="radio" name="approvalConfidence" value="2"><span>2</span></label>
+            <label><input type="radio" name="approvalConfidence" value="3"><span>3</span></label>
+            <label><input type="radio" name="approvalConfidence" value="4"><span>4</span></label>
+            <label><input type="radio" name="approvalConfidence" value="5"><span>5</span></label>
+          </div>
+          <div class="scale-caption"><span>Not confident</span><span>Very confident</span></div>
+        </div>
+
+        <div class="question">
+          <label class="q-label">What would your organization need before approving an AI project?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Privacy review"> Privacy review</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Security review"> Security review</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Legal / compliance review"> Legal / compliance review</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Clear business case"> Clear business case</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="ROI estimate"> ROI estimate</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Pilot results"> Pilot results</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Bias / fairness review"> Bias / fairness review</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Human oversight plan"> Human oversight plan</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Vendor risk assessment"> Vendor risk assessment</label>
+            <label class="option"><input type="checkbox" name="approvalNeeds" value="Data usage policy"> Data usage policy</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="q-label" for="governanceProcess">Does your organization currently have an AI governance or review process?</label>
+          <select id="governanceProcess" name="governanceProcess">
+            <option value="">Select one</option>
+            <option>Yes, formal process</option>
+            <option>Some informal review</option>
+            <option>Currently developing one</option>
+            <option>No</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">4 · Aegis validation</div>
+
+        <div class="question">
+          <label class="q-label" for="readinessScorecard">Would a structured AI readiness scorecard be useful?</label>
+          <select id="readinessScorecard" name="readinessScorecard">
+            <option value="">Select one</option>
+            <option>Very useful</option>
+            <option>Somewhat useful</option>
+            <option>Neutral</option>
+            <option>Not very useful</option>
+            <option>Not useful</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label class="q-label" for="willingnessToUse">Would your organization use or pay for a service that evaluates AI projects before implementation?</label>
+          <select id="willingnessToUse" name="willingnessToUse">
+            <option value="">Select one</option>
+            <option>Yes, likely</option>
+            <option>Maybe, depending on cost</option>
+            <option>Maybe, depending on use case</option>
+            <option>No</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label class="q-label">Aegis is being designed as an “OS for companies” to evaluate, approve, and monitor AI adoption. Which parts sound most useful?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="AI opportunity discovery"> AI opportunity discovery</label>
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="Readiness scoring"> Readiness scoring</label>
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="ROI simulation before implementation"> ROI simulation before implementation</label>
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="Governance and risk documentation"> Governance and risk documentation</label>
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="Privacy and vendor review"> Privacy and vendor review</label>
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="Pilot planning"> Pilot planning</label>
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="Audit evidence collection"> Audit evidence collection</label>
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="Executive dashboards"> Executive dashboards</label>
+            <label class="option"><input type="checkbox" name="aegisFeatures" value="Ongoing monitoring after deployment"> Ongoing monitoring after deployment</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="q-label" for="bigProblem">What is one AI-related problem you wish someone could help your organization solve?</label>
+          <textarea id="bigProblem" name="bigProblem" placeholder="Example: We want to use AI internally, but leadership is worried about data privacy and we do not know how to measure ROI."></textarea>
+        </div>
+
+        <div class="question">
+          <label class="q-label" for="followUp">Would you be open to a 15–20 minute follow-up conversation?</label>
+          <select id="followUp" name="followUp">
+            <option value="">Select one</option>
+            <option>Yes</option>
+            <option>Maybe</option>
+            <option>No</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">5 · Contact, optional</div>
+
+        <div class="question">
+          <label class="q-label" for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" />
+        </div>
+
+        <div class="question">
+          <label class="q-label" for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" />
+        </div>
+
+        <div class="question">
+          <label class="q-label" for="linkedin">LinkedIn</label>
+          <input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/..." />
+        </div>
+
+        <div class="question">
+          <label class="q-label" for="eventName">Event name</label>
+          <input id="eventName" name="eventName" type="text" placeholder="Optional: event, conference, meetup, intro source" />
+        </div>
+
+        <div class="actions">
+          <button id="submitBtn" type="submit">Submit survey</button>
+          <span id="status" class="status">Takes about 2 minutes.</span>
+        </div>
+
+        <p class="footer-note">
+          By submitting, you agree that your response may be used in aggregate to improve Aegis research, discovery, and product development. Contact details are optional and only used for follow-up.
+        </p>
+      </section>
+    </form>
+  </main>
+
+  <script>
+    // 1. Deploy the Google Apps Script below as a Web App.
+    // 2. Replace this URL with your Apps Script Web App URL.
+    const GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+    const form = document.getElementById("surveyForm");
+    const statusEl = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function collectFormData(formElement) {
+      const formData = new FormData(formElement);
+      const data = {};
+
+      for (const [key, value] of formData.entries()) {
+        if (data[key]) {
+          data[key] = Array.isArray(data[key]) ? [...data[key], value] : [data[key], value];
+        } else {
+          data[key] = value;
+        }
+      }
+
+      const checkboxGroups = ["barriers", "useCases", "approvalNeeds", "aegisFeatures"];
+      checkboxGroups.forEach((group) => {
+        if (!data[group]) data[group] = [];
+        if (!Array.isArray(data[group])) data[group] = [data[group]];
+      });
+
+      data.submittedAt = new Date().toISOString();
+      data.pageUrl = window.location.href;
+      return data;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) {
+        statusEl.textContent = "Add your Google Apps Script URL in the code before publishing.";
+        statusEl.className = "status error";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      statusEl.textContent = "Submitting...";
+      statusEl.className = "status";
+
+      const payload = collectFormData(form);
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        statusEl.textContent = "Submitted. Thank you for helping shape Aegis.";
+        statusEl.className = "status success";
+        form.reset();
+      } catch (error) {
+        statusEl.textContent = "Something went wrong. Please try again.";
+        statusEl.className = "status error";
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
+
+<!--
+GOOGLE APPS SCRIPT BACKEND
+Paste this into script.google.com and deploy as a Web App.
+Deployment settings:
+- Execute as: Me
+- Who has access: Anyone
+
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+
+    var headers = [
+      "submittedAt",
+      "role",
+      "organizationType",
+      "aiFamiliarity",
+      "aiStatus",
+      "barriers",
+      "useCases",
+      "approvalConfidence",
+      "approvalNeeds",
+      "governanceProcess",
+      "readinessScorecard",
+      "willingnessToUse",
+      "aegisFeatures",
+      "bigProblem",
+      "followUp",
+      "name",
+      "email",
+      "linkedin",
+      "eventName",
+      "pageUrl"
+    ];
+
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(headers);
+    }
+
+    var row = headers.map(function(header) {
+      var value = data[header] || "";
+      if (Array.isArray(value)) return value.join(", ");
+      return value;
+    });
+
+    sheet.appendRow(row);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: "error", message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+-->
